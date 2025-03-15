@@ -14,21 +14,21 @@ import seaborn as sns
 seed = np.random.seed(1234)
 
 # load dataset
-if os.path.exists('/data/cleaned_data.csv'):
-    data = pd.read_csv('/data/cleaned_data.csv')
-    print(f"Successfully loaded dataset")
-else:
-    raise Exception("no data found")
+# if os.path.exists('/data/cleaned_data.csv'):
+#     data = pd.read_csv('/data/cleaned_data.csv')
+#     print(f"Successfully loaded dataset")
+# else:
+#     raise Exception("no data found")
 
 
-# identify medication columns
-medication_columns = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide',
-                      'glimepiride', 'acetohexamide', 'glipizide', 'glyburide',
-                      'tolbutamide', 'pioglitazone', 'rosiglitazone', 'acarbose',
-                      'miglitol', 'troglitazone', 'tolazamide', 'examide',
-                      'citoglipton', 'insulin', 'glyburide-metformin',
-                      'glipizide-metformin', 'glimepiride-pioglitazone',
-                      'metformin-rosiglitazone', 'metformin-pioglitazone']
+# # identify medication columns
+# medication_columns = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide',
+#                       'glimepiride', 'acetohexamide', 'glipizide', 'glyburide',
+#                       'tolbutamide', 'pioglitazone', 'rosiglitazone', 'acarbose',
+#                       'miglitol', 'troglitazone', 'tolazamide', 'examide',
+#                       'citoglipton', 'insulin', 'glyburide-metformin',
+#                       'glipizide-metformin', 'glimepiride-pioglitazone',
+#                       'metformin-rosiglitazone', 'metformin-pioglitazone']
 
 
 def medication_demand(data, medication, feature_columns):
@@ -148,13 +148,14 @@ def medication_demand(data, medication, feature_columns):
     return metrics, best_xgb_model
 
 
-id_columns = ['encounter_id', 'patient_nbr']
+# id_columns = ['encounter_id', 'patient_nbr']
 
-# Define feature columns (all columns except medication columns and ID columns)
-feature_columns = [col for col in data.columns if col not in id_columns + medication_columns + ['readmitted']]
+# # Define feature columns (all columns except medication columns and ID columns)
+# feature_columns = [col for col in data.columns if col not in id_columns + medication_columns + ['readmitted']]
 results = []
 models = {}
 
+# determine demand for each medication
 for med in medication_columns:
     try:
         metrics, model = medication_demand(data, med, feature_columns)

@@ -45,12 +45,15 @@ scaled = scaler.fit_transform(values)
 reframed = series_to_supervised(scaled, 1, 1) 
 
 # drop irrelevant columns
-
+#! replace this
+reframed.drop(reframed.columns[[9,10,11,12,13,14,15]], axis=1, inplace=True) 
+print(reframed.head()) 
 
 # split into train and test sets
 values = reframed.values
-X = values[] # seriees of columns that contribute to the output
-y = values["readmitted"]
+n_train_hours = 365 * 24 
+train = values[:n_train_hours, :]
+test = values[n_train_hours:, :]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 print(X_train.shape, X_test.shape, y_train.shape, t_test.shape)

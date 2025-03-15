@@ -45,16 +45,16 @@ def train_ensembles(data, medication_columns, feature_columns, base_models_dir='
 
 
 
-data = pd.read_csv('/data/cleaned_data.csv')
-medication_columns = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide',
-                        'glimepiride', 'acetohexamide', 'glipizide', 'glyburide',
-                        'tolbutamide', 'pioglitazone', 'rosiglitazone', 'acarbose',
-                        'miglitol', 'troglitazone', 'tolazamide', 'examide',
-                        'citoglipton', 'insulin', 'glyburide-metformin',
-                        'glipizide-metformin', 'glimepiride-pioglitazone',
-                        'metformin-rosiglitazone', 'metformin-pioglitazone']
+# data = pd.read_csv('/data/cleaned_data.csv')
+# medication_columns = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide',
+#                         'glimepiride', 'acetohexamide', 'glipizide', 'glyburide',
+#                         'tolbutamide', 'pioglitazone', 'rosiglitazone', 'acarbose',
+#                         'miglitol', 'troglitazone', 'tolazamide', 'examide',
+#                         'citoglipton', 'insulin', 'glyburide-metformin',
+#                         'glipizide-metformin', 'glimepiride-pioglitazone',
+#                         'metformin-rosiglitazone', 'metformin-pioglitazone']
 
-id_columns = ['encounter_id', 'patient_nbr']
-feature_columns = [col for col in data.columns if col not in id_columns + medication_columns + ['readmitted']]
+# id_columns = ['encounter_id', 'patient_nbr']
+# feature_columns = [col for col in data.columns if col not in id_columns + medication_columns + ['readmitted']]
 
 ensemble_models = train_ensembles(data, medication_columns, feature_columns)
