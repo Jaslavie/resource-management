@@ -10,7 +10,7 @@ else:
     raise Exception("no data found")
 
 # column categories
-id_columns = ['patient_nbr']
+id_columns =   ['patient_nbr']
 medication_columns = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide',
                         'glimepiride', 'acetohexamide', 'glipizide', 'glyburide',
                         'tolbutamide', 'pioglitazone', 'rosiglitazone', 'acarbose',
@@ -18,8 +18,8 @@ medication_columns = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide
                         'citoglipton', 'insulin', 'glyburide-metformin',
                         'glipizide-metformin', 'glimepiride-pioglitazone',
                         'metformin-rosiglitazone', 'metformin-pioglitazone']
-target_column = ['readmitted']
-feature_columns = [col for col in data.columns if col not in id_columns + medication_columns + target_column]
+target_column = 'readmitted'
+feature_columns = [col for col in data.columns if col not in id_columns + medication_columns + [target_column]]
 
 # handle duplicates and empty rows
 data.replace("?", pd.NA, inplace=True)
@@ -30,6 +30,15 @@ print(f"Size after removing empty rows: {data.shape}")
 # store data types for each columns
 integer = []
 categorical = [] # labels
+
+# encode medication and readmission as binary
+for col in medication_columns:
+    # convert to binary
+    data[col] = data[col].apply(lambda x: 0 if x == 'No' else 1)
+
+if target_column in data.columns:
+    mapping = {'NO': 0, '<30': 1, '>30': 2}
+    data[target_column] = data[target_column].map(mapping)
 
 # process each column and standardize data type
 for col in data.columns:
@@ -47,4 +56,4 @@ print(data.head(5))
 print(f"Rows: {data.shape[0]}, Columns: {data.shape[1]}")
 
 # save cleaned data
-data.to_csv('data/cleaned_data.csv')
+# data.to_csv('data/cleaned_data.csv')
