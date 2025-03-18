@@ -113,7 +113,7 @@ selected_features = [
     'insulin',
     'diabetesMed',
     'A1Cresult',
-    'age_numeric',  # Assuming this was created during data cleaning
+    'age_numeric',
     'gender',
     'num_medications',
     'num_lab_procedures',
@@ -123,7 +123,7 @@ selected_features = [
     'admission_source_id'
 ]
 
-# Prepare dataset with only selected features
+# prep dataset with only selected features
 X = data[selected_features]
 y = data[target_column]
 
@@ -139,3 +139,5 @@ if len(selected_features) > 0:
     # fill NaNs with appropriate values
     X = X.fillna(X.median(numeric_only=True))
 
+selected_data = data[selected_features + [target_column]]
+selected_data.to_csv('data/selected_features_data.csv', index=False)
