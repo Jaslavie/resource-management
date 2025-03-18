@@ -9,7 +9,7 @@ if os.path.exists('data/diabetic_data.csv'):
 else:
     raise Exception("no data found")
 
-# column categories
+# separate column categories
 id_columns =   ['patient_nbr']
 medication_columns = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide',
                         'glimepiride', 'acetohexamide', 'glipizide', 'glyburide',
@@ -19,8 +19,12 @@ medication_columns = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide
                         'glipizide-metformin', 'glimepiride-pioglitazone',
                         'metformin-rosiglitazone', 'metformin-pioglitazone']
 target_column = 'readmitted'
-feature_columns = [col for col in data.columns if col not in id_columns + medication_columns + [target_column]]
+categorical_columns = []
+cleaned_data = data.copy()
 
+
+
+#### Preprocess data ####
 # handle duplicates and empty rows
 data.replace("?", pd.NA, inplace=True)
 # data.dropna(inplace=True)
@@ -30,15 +34,6 @@ print(f"Size after removing empty rows: {data.shape}")
 # store data types for each columns
 integer = []
 categorical = [] # labels
-
-# encode medication and readmission as binary
-for col in medication_columns:
-    # convert to binary
-    data[col] = data[col].apply(lambda x: 0 if x == 'No' else 1)
-
-if target_column in data.columns:
-    mapping = {'NO': 0, '<30': 1, '>30': 2}
-    data[target_column] = data[target_column].map(mapping)
 
 # process each column and standardize data type
 for col in data.columns:
@@ -51,6 +46,25 @@ for col in data.columns:
     print(f"integer data: {integer}")
     print(f"categorical data: {categorical}")
 
+#### Encode data ####
+# 1. medication --> binary
+for col in medication_columns:
+    # convert to binary
+    data[col] = data[col].apply(lambda x: 0 if x == 'No' else 1)
+
+# 2. target --> binary
+if target_column in data.columns:
+    mapping = {'NO': 0, '<30': 1, '>30': 2}
+    data[target_column] = data[target_column].map(mapping)
+
+# 3. process other categorical data
+# convert series of strings to dummy codes
+if col in categorical:
+    if col not in medication_columns or target_column:
+        dummies = pd.get_dummies(data[col], prefix=col, drop_first=False) 
+        data = pd.concat([data, dummies], axis=1)
+
+#### Summarize data ####
 # summarize first 5 rows
 print(data.head(5))
 print(f"Rows: {data.shape[0]}, Columns: {data.shape[1]}")
