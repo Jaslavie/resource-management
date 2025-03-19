@@ -10,6 +10,7 @@ data = pd.read_csv('data/selected_features_data.csv')
 
 X = data.drop(columns=['readmitted'])
 y = data['readmitted']
+
 # binary problem (readmission yes/no)
 y_binary = (y > 0).astype(int)  # 0=no readmission, 1=any readmission
 
