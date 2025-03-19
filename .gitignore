@@ -1,2 +1,4 @@
-# /data/selected_features_data.csv
+/data/selected_features_data.csv
 /data/cleaned_data.csv
+data/IDS_mapping.csv
+data/diabetic_data.csv
