@@ -11,7 +11,7 @@ import joblib
 import os
 
 # directory for outputs
-os.makedirs('outputs', exist_ok=True)
+# os.makedirs('outputs', exist_ok=True)
 
 # load the selected features data
 data = pd.read_csv('data/selected_features_data.csv')

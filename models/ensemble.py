@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, roc_auc_score, classification_report
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
-import xgboost as xgb
+import models.xboost_medication as xgb
 import joblib
 from sklearn.linear_model import LogisticRegression
 import keras
